@@ -86,7 +86,7 @@ def compter_clef_nom(stats_json, clef : str, nom : str) -> int :
             #print(ev, clef, nom)
             n_clef += 1
     return n_clef
-    
+
 def test1():
     histo = 26 * [0]
     with open('oscar.json', 'r') as f:
@@ -155,12 +155,13 @@ if __name__ == '__main__':
     analyseur = argparse.ArgumentParser('statistiquesMoodle', 'Extrait des statistiques des journaux Moodle.')
     
     analyseur.add_argument('nom_fichier', help='Le nom du fichier à analyser.')
+    analyseur.add_argument('-n', '--noms', action='store_true', help='Renvoie la liste des noms apparaissant dans le journal.')
 
     args = analyseur.parse_args()
-
-    print('Nom du fichier :', args.nom_fichier)
 
     stats_json = []
     with open(args.nom_fichier, 'r', encoding='utf-8') as f :
         stats_json = json.load(f)
+        
+    if args.noms :
         print(*sorted([nom_de_famille(nom) for nom in obtenir_noms(stats_json)]), sep='\n')
