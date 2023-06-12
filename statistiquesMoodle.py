@@ -26,6 +26,10 @@ def obtenir_noms_a_enlever(fichier : str) -> set :
     return noms_a_enlever
 
 def num_de_semaine(date: str) -> int:
+    """
+    Retourne le numéro de la semaine (de 01 à 53) à partir d'une date au format %d %m %y, %H:%M
+    Exemple : 4 juin 23, 15:49
+    """
     mois_fr = ['janv.', 'févr.', 'mars', 'avril', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
     mois_en = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12']
 
@@ -39,6 +43,7 @@ def num_de_semaine(date: str) -> int:
     return num
 
 def nom_de_famille(nom : str) -> str :
+    """Extrait le nom de famille de la chaîne de caractère qui contient prénom et nom"""
     mots = nom.split(" ")
     return " ".join(mots[1:])
 
