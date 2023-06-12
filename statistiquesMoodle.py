@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import argparse
 import os
 import json
 import datetime
@@ -151,5 +152,15 @@ def test5():
             print(nom, "nombre de cours consultés :", compter_clef_nom(stats_json, "Cours consulté", nom))
                
 if __name__ == '__main__':
-    test5()
+    analyseur = argparse.ArgumentParser('statistiquesMoodle', 'Extrait des statistiques des journaux Moodle.')
     
+    analyseur.add_argument('nom_fichier', help='Le nom du fichier à analyser.')
+
+    args = analyseur.parse_args()
+
+    print('Nom du fichier :', args.nom_fichier)
+
+    stats_json = []
+    with open(args.nom_fichier, 'r', encoding='utf-8') as f :
+        stats_json = json.load(f)
+        print(*sorted([nom_de_famille(nom) for nom in obtenir_noms(stats_json)]), sep='\n')
