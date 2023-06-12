@@ -143,7 +143,7 @@ def test5():
         stats_json = json.load(f)
         noms = obtenir_noms(stats_json)
         for nom in noms : 
-            print(nom, "nombre de cours cousultés :", compter_clef_nom(stats_json, "Cours consulté", nom))
+            print(nom, "nombre de cours consultés :", compter_clef_nom(stats_json, "Cours consulté", nom))
                
 if __name__ == '__main__':
     test5()
