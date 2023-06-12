@@ -8,6 +8,8 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
+noms_a_enlever = set()
+
 def obtenir_noms_a_enlever(fichier : str) -> set :
     """
     Lit le fichier passé en paramètre, si ce dernier existe, et retourne un ensemble, éventuelment vide, de noms.
@@ -49,7 +51,6 @@ def nom_de_famille(nom : str) -> str :
     return " ".join(mots[1:])
 
 def obtenir_noms(stats_json):
-    noms_a_enlever = obtenir_noms_a_enlever('noms_a_enlever.txt')
     noms = set()
     for ev in stats_json[0]:
         nom = ev[1]
@@ -156,12 +157,15 @@ if __name__ == '__main__':
     
     analyseur.add_argument('nom_fichier', help='Le nom du fichier à analyser.')
     analyseur.add_argument('-n', '--noms', action='store_true', help='Renvoie la liste des noms apparaissant dans le journal.')
+    analyseur.add_argument('--enlever', default='noms_a_enlever.txt', help='Le fichier contenant la liste de noms à enlever.')
 
     args = analyseur.parse_args()
 
     stats_json = []
     with open(args.nom_fichier, 'r', encoding='utf-8') as f :
         stats_json = json.load(f)
-        
+ 
+    noms_a_enlever = obtenir_noms_a_enlever(args.enlever)
+       
     if args.noms :
         print(*sorted([nom_de_famille(nom) for nom in obtenir_noms(stats_json)]), sep='\n')
