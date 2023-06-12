@@ -8,7 +8,8 @@ import random
 import numpy as np
 import matplotlib.pyplot as plt
 
-noms_a_enlever = set()
+noms_a_enlever = set() # Les noms des utilisateur ne devant pas apparaîtres dans les stats
+json_stats = [] # La liste reournée par json.loads
 
 def obtenir_noms_a_enlever(fichier : str) -> set :
     """
@@ -50,7 +51,7 @@ def nom_de_famille(nom : str) -> str :
     mots = nom.split(" ")
     return " ".join(mots[1:])
 
-def obtenir_noms(stats_json):
+def obtenir_noms():
     noms = set()
     for ev in stats_json[0]:
         nom = ev[1]
@@ -59,7 +60,7 @@ def obtenir_noms(stats_json):
             noms.add(nom)
     return noms - noms_a_enlever
 
-def obtenir_noms_ev(stats_json, noms_a_enlever=set()):
+def obtenir_noms_ev(noms_a_enlever=set()):
     noms_ev_a_enlever = set([])
     noms_ev = set()
     for ev in stats_json[0]:
@@ -70,7 +71,7 @@ def obtenir_noms_ev(stats_json, noms_a_enlever=set()):
             noms_ev.add(nom_ev)
     return noms_ev - noms_ev_a_enlever
 
-def obtenir_histo(stats_json, nom):
+def obtenir_histo(nom):
     histo = 53 * [0] # 53 semaines
     for ev in stats_json[0]:
         nom_courant = ev[1]
@@ -78,7 +79,7 @@ def obtenir_histo(stats_json, nom):
             histo[num_de_semaine(ev[0])] += 1
     return histo
 
-def compter_clef_nom(stats_json, clef : str, nom : str) -> int :
+def compter_clef_nom(clef : str, nom : str) -> int :
     n_clef = 0
     for ev in stats_json[0] :
         nom_courant = ev[1]
@@ -168,4 +169,4 @@ if __name__ == '__main__':
     noms_a_enlever = obtenir_noms_a_enlever(args.enlever)
        
     if args.noms :
-        print(*sorted([nom_de_famille(nom) for nom in obtenir_noms(stats_json)]), sep='\n')
+        print(*sorted([nom_de_famille(nom) for nom in obtenir_noms()]), sep='\n')
