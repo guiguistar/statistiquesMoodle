@@ -163,6 +163,9 @@ if __name__ == '__main__':
     args = analyseur.parse_args()
 
     stats_json = []
+
+    assert args.nom_fichier.endswith(".json"), f"Le fichier doit être un .json. Fichier fourni : {args.nom_fichier}"
+
     with open(args.nom_fichier, 'r', encoding='utf-8') as f :
         stats_json = json.load(f)
  
