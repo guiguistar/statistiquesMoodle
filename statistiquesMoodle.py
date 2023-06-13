@@ -78,7 +78,7 @@ def obtenir_contextes():
         nom = ev[1]
         contexte = ev[5]
         if not (contexte in contextes or nom in noms_a_enlever):
-            print(nom, contexte)
+            #print(nom, contexte)
             contextes.add(contexte)
     return contextes
 
@@ -106,9 +106,13 @@ def compter_clef_nom(clef : str, nom : str) -> int :
     for ev in stats_json[0] :
         nom_courant = ev[1]
         #print(nom_courant, nom)
-        if nom_courant == nom and clef in ev :
-            #print(ev, clef, nom)
-            n_clef += 1
+        if nom_courant == nom :
+            # Permet d'ignorer la clef et de compter tous les événements
+            if clef == "NULL" :
+                n_clef += 1
+            else :
+                if clef in ev :
+                    n_clef += 1
     return n_clef
 
 def test1():
@@ -168,19 +172,19 @@ def test4():
     noms_ev = obtenir_noms_ev(stats_json)
     print(*noms_ev,sep='\n')
 
-def test5():
-    with open('total.json', 'r', encoding='utf-8') as f:
-        stats_json = json.load(f)
-        noms = obtenir_noms(stats_json)
-        for nom in noms : 
-            print(nom, "nombre de cours consultés :", compter_clef_nom(stats_json, "Cours consulté", nom))
+def afficher_tableau(clef : str) :
+    noms = obtenir_noms()
+    for nom in sorted(noms, key=nom_de_famille) : 
+        #print(nom, "nombre de cours consultés :", compter_clef_nom("Cours consulté", nom))
+        print(nom_de_famille(nom), compter_clef_nom(clef, nom), sep=',')
                
 if __name__ == '__main__':
     analyseur = argparse.ArgumentParser('statistiquesMoodle', 'Extrait des statistiques des journaux Moodle.')
     
     analyseur.add_argument('nom_fichier', help='Le nom du fichier à analyser.')
     analyseur.add_argument('-n', '--noms', action='store_true', help='Renvoie la liste des noms apparaissant dans le journal.')
-    analyseur.add_argument('-c', '--contextes', action='store_true', help='Renvoie la liste des contextes apparaissant dans le journal.')
+    analyseur.add_argument('-c', '--clef', help='Renvoie le tableau du nombre d\'occurences de clef pour chaque nom.')
+    analyseur.add_argument('--contextes', action='store_true', help='Renvoie la liste des contextes apparaissant dans le journal.')
     analyseur.add_argument('--enlever', default='noms_a_enlever.txt', help='Le fichier contenant la liste de noms à enlever.')
 
     args = analyseur.parse_args()
@@ -196,7 +200,10 @@ if __name__ == '__main__':
        
     if args.noms :
         print(*sorted([nom_de_famille(nom) for nom in obtenir_noms()]), sep='\n')
+        
+    if args.clef:
+        afficher_tableau(args.clef)
 
     if args.contextes :
         print(*sorted(obtenir_contextes()), sep='\n')
-        
+
