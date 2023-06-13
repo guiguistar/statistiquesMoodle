@@ -72,6 +72,16 @@ def obtenir_noms():
             noms.add(nom)
     return noms - noms_a_enlever
 
+def obtenir_contextes():
+    contextes = set()
+    for ev in stats_json[0]:
+        nom = ev[1]
+        contexte = ev[5]
+        if not (contexte in contextes or nom in noms_a_enlever):
+            print(nom, contexte)
+            contextes.add(contexte)
+    return contextes
+
 def obtenir_noms_ev(noms_a_enlever=set()):
     noms_ev_a_enlever = set([])
     noms_ev = set()
@@ -170,6 +180,7 @@ if __name__ == '__main__':
     
     analyseur.add_argument('nom_fichier', help='Le nom du fichier à analyser.')
     analyseur.add_argument('-n', '--noms', action='store_true', help='Renvoie la liste des noms apparaissant dans le journal.')
+    analyseur.add_argument('-c', '--contextes', action='store_true', help='Renvoie la liste des contextes apparaissant dans le journal.')
     analyseur.add_argument('--enlever', default='noms_a_enlever.txt', help='Le fichier contenant la liste de noms à enlever.')
 
     args = analyseur.parse_args()
@@ -185,3 +196,7 @@ if __name__ == '__main__':
        
     if args.noms :
         print(*sorted([nom_de_famille(nom) for nom in obtenir_noms()]), sep='\n')
+
+    if args.contextes :
+        print(*sorted(obtenir_contextes()), sep='\n')
+        
