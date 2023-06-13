@@ -11,6 +11,18 @@ import matplotlib.pyplot as plt
 noms_a_enlever = set() # Les noms des utilisateur ne devant pas apparaîtres dans les stats
 json_stats = [] # La liste reournée par json.loads
 
+"""
+Une entrée présente dans la liste ci-dessus est consituée, dans l'ordre, de :
+- l'heure
+- le nom complet de l'utilisateur
+- le contexte de l'événement
+- le composant (HP5, par exemple)
+- le nom de l'événement
+- une description
+- une origine (web, par exemple)
+- une ip
+"""
+
 def obtenir_noms_a_enlever(fichier : str) -> set :
     """
     Lit le fichier passé en paramètre, si ce dernier existe, et retourne un ensemble, éventuelment vide, de noms.
