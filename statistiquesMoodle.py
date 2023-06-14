@@ -63,6 +63,14 @@ def nom_de_famille(nom : str) -> str :
     mots = nom.split(" ")
     return " ".join(mots[1:])
 
+def obtenir_valeurs(i : int) -> set :
+    """Retourne l'ensemble des valeurs d'indice i (dans chacune des entrées)."""
+    valeurs = set()
+    for entree in stats_json[0] :
+        valeur = entree[indice]
+        valeurs.add(valeur)
+    return valeurs
+
 def obtenir_noms():
     noms = set()
     for ev in stats_json[0]:
@@ -207,3 +215,4 @@ if __name__ == '__main__':
     if args.contextes :
         print(*sorted(obtenir_contextes()), sep='\n')
 
+    print(obtenir_valeurs(1))
