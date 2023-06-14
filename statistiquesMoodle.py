@@ -86,19 +86,19 @@ def obtenir_histo(nom):
             histo[num_de_semaine(ev[0])] += 1
     return histo
 
-def compter_clef_nom(clef : str, nom : str) -> int :
-    n_clef = 0
+def compter_valeur(valeur : str, nom : str) -> int :
+    n_valeur = 0
     for ev in stats_json[0] :
         nom_courant = ev[1]
         #print(nom_courant, nom)
         if nom_courant == nom :
-            # Permet d'ignorer la clef et de compter tous les événements
-            if clef == "NULL" :
-                n_clef += 1
+            # Permet d'ignorer la valeur et de compter tous les événements
+            if valeur == "NULL" :
+                n_valeur += 1
             else :
-                if clef in ev :
-                    n_clef += 1
-    return n_clef
+                if valeur in ev :
+                    n_valeur += 1
+    return n_valeur
 
 def test1():
     histo = 26 * [0]
@@ -152,18 +152,18 @@ def test3():
             g.write(f"{nom_de_famille(nom)},{n}\n")
             #print(f"{nom_de_famille(nom)},{n}\n")
 
-def afficher_tableau(clef : str) :
+def afficher_tableau(valeur : str) :
     noms = obtenir_noms()
     for nom in sorted(noms, key=nom_de_famille) : 
-        #print(nom, "nombre de cours consultés :", compter_clef_nom("Cours consulté", nom))
-        print(nom_de_famille(nom), compter_clef_nom(clef, nom), sep=',')
+        #print(nom, "nombre de cours consultés :", compter_valeur("Cours consulté", nom))
+        print(nom_de_famille(nom), compter_valeur(valeur, nom), sep=',')
                
 if __name__ == '__main__':
     analyseur = argparse.ArgumentParser('statistiquesMoodle', 'Extrait des statistiques des journaux Moodle.')
     
     analyseur.add_argument('nom_fichier', help='Le nom du fichier à analyser.')
     analyseur.add_argument('-n', '--noms', action='store_true', help='Renvoie la liste des noms apparaissant dans le journal.')
-    analyseur.add_argument('-c', '--clef', help='Renvoie le tableau du nombre d\'occurences de clef pour chaque nom.')
+    analyseur.add_argument('-v', '--valeur', help='Renvoie le tableau du nombre d\'occurences de valeur pour chaque nom.')
     analyseur.add_argument('--contextes', action='store_true', help='Renvoie la liste des contextes apparaissant dans le journal.')
     analyseur.add_argument('--enlever', default='noms_a_enlever.txt', help='Le fichier contenant la liste de noms à enlever.')
 
@@ -181,11 +181,12 @@ if __name__ == '__main__':
     if args.noms :
         print(*sorted([nom_de_famille(nom) for nom in obtenir_noms()]), sep='\n')
         
-    if args.clef:
-        afficher_tableau(args.clef)
+    if args.valeur:
+        afficher_tableau(args.valeur)
 
     if args.contextes :
         print(*sorted(obtenir_contextes()), sep='\n')
 
     print(obtenir_contextes())
+    print(obtenir_valeurs(8))
  
