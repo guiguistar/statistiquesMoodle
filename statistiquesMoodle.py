@@ -204,8 +204,3 @@ if __name__ == '__main__':
 
     if args.contextes :
         print(*sorted(obtenir_contextes()), sep='\n')
-
-    print(obtenir_contextes())
-    print(obtenir_valeurs(8))
- 
-    print(*select_avec(["Oscar Debacker", "Badge délivré"]), sep='\n')
