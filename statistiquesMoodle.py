@@ -78,17 +78,6 @@ def obtenir_noms():
 def obtenir_contextes():
     return obtenir_valeurs(5)
 
-def obtenir_noms_ev(noms_a_enlever=set()):
-    noms_ev_a_enlever = set([])
-    noms_ev = set()
-    for ev in stats_json[0]:
-        nom = ev[1]
-        nom_ev = ev[5]
-        if not (nom in noms_a_enlever) and not (nom_ev in noms_ev):
-            #print("Ajout du nom", nom)
-            noms_ev.add(nom_ev)
-    return noms_ev - noms_ev_a_enlever
-
 def obtenir_histo(nom):
     histo = 53 * [0] # 53 semaines
     for ev in stats_json[0]:
@@ -162,11 +151,6 @@ def test3():
             print(nom_de_famille(nom), n, sep=",")
             g.write(f"{nom_de_famille(nom)},{n}\n")
             #print(f"{nom_de_famille(nom)},{n}\n")
-def test4():
-    with open('total.json', 'r', encoding='utf-8') as f:
-        stats_json = json.load(f)
-    noms_ev = obtenir_noms_ev(stats_json)
-    print(*noms_ev,sep='\n')
 
 def afficher_tableau(clef : str) :
     noms = obtenir_noms()
