@@ -64,21 +64,16 @@ def nom_de_famille(nom : str) -> str :
     return " ".join(mots[1:])
 
 def obtenir_valeurs(i : int) -> set :
-    """Retourne l'ensemble des valeurs d'indice i (dans chacune des entrées)."""
+    """Retourne l'ensemble des valeurs d'indice i (dans chacune des entrées)"""
     valeurs = set()
     for entree in stats_json[0] :
-        valeur = entree[indice]
+        valeur = entree[i]
         valeurs.add(valeur)
     return valeurs
 
 def obtenir_noms():
-    noms = set()
-    for ev in stats_json[0]:
-        nom = ev[1]
-        if not (nom in noms):
-            #print("Ajout du nom", nom)
-            noms.add(nom)
-    return noms - noms_a_enlever
+    """Retourne l'ensemble des noms, privé de l'ensemble des noms à enlever"""
+    return obtenir_valeurs(1) - noms_a_enlever
 
 def obtenir_contextes():
     contextes = set()
@@ -216,3 +211,4 @@ if __name__ == '__main__':
         print(*sorted(obtenir_contextes()), sep='\n')
 
     print(obtenir_valeurs(1))
+    print(obtenir_noms())
