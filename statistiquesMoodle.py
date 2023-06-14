@@ -113,6 +113,13 @@ def test1():
         print(f"Semaine {i:2} : {n:3} connexion(s)")
 
 def select_avec(valeurs : list) -> [] :
+    """
+    L'équivalent du SQL SELECT * FROM stats_json[0] WHERE nom="Toto", nom de l'événement = "Badge délivré"
+    
+    serait
+
+    select_avec(["Toto", "Badge délivré"])
+    """
     selection = []
     for entree in stats_json[0] :
         selectionne = True
