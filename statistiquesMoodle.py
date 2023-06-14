@@ -76,14 +76,7 @@ def obtenir_noms():
     return obtenir_valeurs(1) - noms_a_enlever
 
 def obtenir_contextes():
-    contextes = set()
-    for ev in stats_json[0]:
-        nom = ev[1]
-        contexte = ev[5]
-        if not (contexte in contextes or nom in noms_a_enlever):
-            #print(nom, contexte)
-            contextes.add(contexte)
-    return contextes
+    return obtenir_valeurs(5)
 
 def obtenir_noms_ev(noms_a_enlever=set()):
     noms_ev_a_enlever = set([])
@@ -210,5 +203,5 @@ if __name__ == '__main__':
     if args.contextes :
         print(*sorted(obtenir_contextes()), sep='\n')
 
-    print(obtenir_valeurs(1))
-    print(obtenir_noms())
+    print(obtenir_contextes())
+ 
