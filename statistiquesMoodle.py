@@ -112,6 +112,17 @@ def test1():
     for i, n in enumerate(histo):
         print(f"Semaine {i:2} : {n:3} connexion(s)")
 
+def select_avec(valeurs : list) -> [] :
+    selection = []
+    for entree in stats_json[0] :
+        selectionne = True
+        for valeur in valeurs :
+            if not (valeur in entree) :
+                selectionne = False
+        if selectionne :
+            selection.append(entree)
+    return selection
+
 def test2():
     noms = set()
     with open('total.json', 'r') as f:
@@ -190,3 +201,4 @@ if __name__ == '__main__':
     print(obtenir_contextes())
     print(obtenir_valeurs(8))
  
+    print(*select_avec(["Oscar Debacker", "Badge délivré"]), sep='\n')
