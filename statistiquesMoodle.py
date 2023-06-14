@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 
 noms_a_enlever = set() # Les noms des utilisateur ne devant pas apparaîtres dans les stats
 json_stats = [] # La liste reournée par json.loads
-
+entrees = []
 """
 Une entrée présente dans la liste ci-dessus est consituée, dans l'ordre, de :
 - l'heure
@@ -66,7 +66,7 @@ def nom_de_famille(nom : str) -> str :
 def obtenir_valeurs(i : int) -> set :
     """Retourne l'ensemble des valeurs d'indice i (dans chacune des entrées)"""
     valeurs = set()
-    for entree in stats_json[0] :
+    for entree in entrees :
         valeur = entree[i]
         valeurs.add(valeur)
     return valeurs
@@ -80,7 +80,7 @@ def obtenir_contextes():
 
 def obtenir_histo(nom):
     histo = 53 * [0] # 53 semaines
-    for ev in stats_json[0]:
+    for ev in entrees:
         nom_courant = ev[1]
         if nom_courant == nom:
             histo[num_de_semaine(ev[0])] += 1
@@ -88,7 +88,7 @@ def obtenir_histo(nom):
 
 def compter_valeur(valeur : str, nom : str) -> int :
     n_valeur = 0
-    for ev in stats_json[0] :
+    for ev in entrees :
         nom_courant = ev[1]
         #print(nom_courant, nom)
         if nom_courant == nom :
@@ -104,7 +104,7 @@ def test1():
     histo = 26 * [0]
     with open('oscar.json', 'r') as f:
         stats_json = json.load(f)
-        for ev in stats_json[0]:
+        for ev in entrees:
             histo[num_de_semaine(ev[0])] += 1
 
     print(histo)
@@ -114,14 +114,14 @@ def test1():
 
 def select_avec(valeurs : list) -> [] :
     """
-    L'équivalent du SQL SELECT * FROM stats_json[0] WHERE nom="Toto", nom de l'événement = "Badge délivré"
+    L'équivalent du SQL SELECT * FROM entrees WHERE nom="Toto", nom de l'événement = "Badge délivré"
     
     serait
 
     select_avec(["Toto", "Badge délivré"])
     """
     selection = []
-    for entree in stats_json[0] :
+    for entree in entrees :
         selectionne = True
         for valeur in valeurs :
             if not (valeur in entree) :
@@ -134,7 +134,7 @@ def test2():
     noms = set()
     with open('total.json', 'r') as f:
         stats_json = json.load(f)
-        for ev in stats_json[0]:
+        for ev in entrees:
             nom = ev[1]
             if not nom in noms:
                 #print("Ajout du nom ", nom)
@@ -144,7 +144,7 @@ def test2():
 
         print("Nom choisi : ", elu)
         
-        for ev in stats_json[0]:
+        for ev in entrees:
             nom = ev[1]
             if nom == elu:
                 print([ev[i] for i in [0,1]], num_de_semaine(ev[0]))
@@ -193,7 +193,7 @@ if __name__ == '__main__':
 
     with open(args.nom_fichier, 'r', encoding='utf-8') as f :
         stats_json = json.load(f)
- 
+        entrees = stats_json[0]
     noms_a_enlever = obtenir_noms_a_enlever(args.enlever)
        
     if args.noms :
